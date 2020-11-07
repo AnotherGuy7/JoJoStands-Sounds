@@ -1,0 +1,4 @@
+author = AnotherGuy
+version = 0.81
+displayName = JoJoStands: Sounds
+modReferences = JoJoStands
