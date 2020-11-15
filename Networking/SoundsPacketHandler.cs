@@ -99,8 +99,7 @@ namespace JoJoStandsSounds.Networking
                 }
             }
 
-            //Main.NewText("Dist: " + (Vector2.Distance(player.position, position) - 64) + "DFS: " + distanceFromSource);
-            sound.Volume = (travelDist - distanceFromSource) * MyPlayer.soundVolume;
+            sound.Volume = ((travelDist - distanceFromSource) / travelDist) * MyPlayer.soundVolume;
             if (sound.Volume != 0f)
             {
                 if (!soundExists)
@@ -114,7 +113,7 @@ namespace JoJoStandsSounds.Networking
                 }
                 else
                 {
-                    if (state == SoundState.Playing)
+                    if (state == SoundState.Playing && sound.State != SoundState.Playing)
                     {
                         Main.PlaySoundInstance(sound);
                         //Main.NewText("Sound is playing!");
