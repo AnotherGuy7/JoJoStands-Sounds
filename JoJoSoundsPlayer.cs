@@ -1,9 +1,9 @@
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.ModLoader;
 using JoJoStands;
 using JoJoStandsSounds.Networking;
+using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace JoJoStandsSounds
 {
@@ -36,6 +36,14 @@ namespace JoJoStandsSounds
             else
             {
                 playedPoseSound = false;
+            }
+
+            if (Main.netMode != NetmodeID.SinglePlayer && JoJoStandsSounds.syncSounds)
+            {
+                for (int i = 0; i < JoJoStandsSounds.soundInstances.Count; i++)
+                {
+                    SoundsHelper.PlaySound(JoJoStandsSounds.soundInstances[i], JoJoStandsSounds.soundStates[i], JoJoStandsSounds.soundPositions[i], JoJoStandsSounds.soundTravelDistances[i]);
+                }
             }
         }
 

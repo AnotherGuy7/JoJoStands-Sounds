@@ -45,7 +45,7 @@ namespace JoJoStandsSounds.Networking
             Vector2 pos = reader.ReadVector2();
             if (Main.netMode != NetmodeID.Server)
             {
-                Main.PlaySound(JoJoStandsSounds.Instance.GetLegacySoundSlot(SoundType.Custom, soundPath), pos);
+                Main.PlaySound(JoJoStandsSounds.Instance.GetLegacySoundSlot(SoundType.Custom, soundPath), pos).Volume = MyPlayer.soundVolume;
             }
             else
             {
@@ -71,59 +71,34 @@ namespace JoJoStandsSounds.Networking
             int travelDist = reader.ReadInt32();
             if (Main.netMode != NetmodeID.Server)
             {
+                SoundEffectInstance sound = JoJoStandsSounds.Instance.GetSound(soundPath).CreateInstance();
                 if (JoJoStandsSounds.syncSounds)
-                    PlaySound(soundPath, state, pos, travelDist);
+                {
+                    bool soundExists = false;
+                    for (int i = 0; i < JoJoStandsSounds.soundInstances.Count; i++)
+                    {
+                        if (JoJoStandsSounds.soundInstances[i].ToString() == sound.ToString())
+                        {
+                            sound.Dispose();
+                            JoJoStandsSounds.soundStates[i] = state;
+                            JoJoStandsSounds.soundPositions[i] = pos;
+                            JoJoStandsSounds.soundTravelDistances[i] = travelDist;
+                            soundExists = true;
+                            break;
+                        }
+                    }
+                    if (!soundExists)
+                    {
+                        JoJoStandsSounds.soundInstances.Add(sound);
+                        JoJoStandsSounds.soundStates.Add(state);
+                        JoJoStandsSounds.soundPositions.Add(pos);
+                        JoJoStandsSounds.soundTravelDistances.Add(travelDist);
+                    }
+                }
             }
             else
             {
                 PlaySoundInstance(-1, fromWho, soundPath, state, pos, travelDist);
-            }
-        }
-
-        private void PlaySound(string soundPath, SoundState state, Vector2 position, int soundTravelDistance = 10)
-        {
-            Player player = Main.player[Main.myPlayer];
-            int travelDist = soundTravelDistance * 16;
-            float distanceFromSource = MathHelper.Clamp(Vector2.Distance(player.position, position) - 64, 0, travelDist);       //-64 so that if the player gets close enough the volume doesn't go higher but instead stays at that volume
-            SoundEffectInstance sound = JoJoStandsSounds.Instance.GetSound(soundPath).CreateInstance();
-
-            bool soundExists = false;
-            for (int i = 0; i < JoJoStandsSounds.soundInstances.Count; i++)
-            {
-                if (JoJoStandsSounds.soundInstances[i].ToString() == sound.ToString())
-                {
-                    sound.Dispose();
-                    sound = JoJoStandsSounds.soundInstances[i];
-                    soundExists = true;
-                    break;
-                }
-            }
-
-            sound.Volume = ((travelDist - distanceFromSource) / travelDist) * MyPlayer.soundVolume;
-            if (sound.Volume != 0f)
-            {
-                if (!soundExists)
-                {
-                    if (state != SoundState.Stopped)
-                    {
-                        Main.PlaySoundInstance(sound);
-                    }
-                    JoJoStandsSounds.soundInstances.Add(sound);
-                    //Main.NewText("Sound Added!");
-                }
-                else
-                {
-                    if (state == SoundState.Playing && sound.State != SoundState.Playing)
-                    {
-                        Main.PlaySoundInstance(sound);
-                        //Main.NewText("Sound is playing!");
-                    }
-                    else if (state == SoundState.Stopped)
-                    {
-                        sound.Stop();
-                        //Main.NewText("Sound has stopped.");
-                    }
-                }
             }
         }
     }

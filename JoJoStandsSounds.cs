@@ -4,8 +4,6 @@ using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace JoJoStandsSounds
@@ -17,6 +15,9 @@ namespace JoJoStandsSounds
         internal static SoundsCustomizableOptions customizableConfig;
 
         public static List<SoundEffectInstance> soundInstances = new List<SoundEffectInstance>();
+        public static List<SoundState> soundStates = new List<SoundState>();        //This is an array of the state the sound SHOULD be in
+        public static List<Vector2> soundPositions = new List<Vector2>();
+        public static List<int> soundTravelDistances = new List<int>();
 
         public static JoJoStandsSounds Instance => ModContent.GetInstance<JoJoStandsSounds>();
 
@@ -26,7 +27,10 @@ namespace JoJoStandsSounds
             syncSounds = false;
             customizableConfig = null;
             soundInstances.Clear();
-			ModNetHandler.soundsSync = null;
+            soundStates.Clear();
+            soundPositions.Clear();
+            soundTravelDistances.Clear();
+            ModNetHandler.soundsSync = null;
         }
 
         public override object Call(params object[] args)
@@ -54,43 +58,5 @@ namespace JoJoStandsSounds
         {
             ModNetHandler.HandlePacket(reader, whoAmI);
         }
-
-        /*public static void PlaySound(SoundEffectInstance sound, Vector2 position, float soundTravelDistance = 10f)
-        {
-            Player player = Main.player[Main.myPlayer];
-            int travelDist = (int)(soundTravelDistance * 16f);
-            float distanceFromSource = Vector2.Distance(player.position, position);
-            sound.Volume = (distanceFromSource / travelDist) * MyPlayer.soundVolume; //Probably going to want to clamp distFromSource so it doesn't go under 0
-            Main.PlaySoundInstance(sound);
-
-            //Multiplayer sync stuff
-            if (Main.netMode != NetmodeID.SinglePlayer)
-            {
-                if (syncSounds)
-                {
-                    ModNetHandler.playerSync.SendSoundInstance();
-                }
-            }
-        }*/
-
-        //Helper stuff
-        /*public static void PlaySound(string soundPath, Vector2 position, float soundTravelDistance = 10f)     //This'll probably not be used
-        {
-            Player player = Main.player[Main.myPlayer];
-            int travelDist = (int)(soundTravelDistance * 16f);
-            float distanceFromSource = Vector2.Distance(player.position, position);
-            SoundEffectInstance sound = Instance.GetSound(soundPath).CreateInstance();
-            sound.Volume = (distanceFromSource / travelDist) * MyPlayer.soundVolume; //Probably going to want to clamp distFromSource so it doesn't go under 0
-            Main.PlaySoundInstance(sound);
-
-            //Multiplayer sync stuff
-            if (Main.netMode != NetmodeID.SinglePlayer)
-            {
-                if (syncSounds && Main.netMode == NetmodeID.MultiplayerClient)
-                {
-                    ModNetHandler.playerSync.SendSoundInstance(256, player.whoAmI, soundPath, position);
-                }
-            }
-        }*/
     }
 }

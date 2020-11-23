@@ -1,4 +1,4 @@
 author = AnotherGuy
-version = 0.81
+version = 0.9
 displayName = JoJoStands: Sounds
 modReferences = JoJoStands
