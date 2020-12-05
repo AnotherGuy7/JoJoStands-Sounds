@@ -14,6 +14,7 @@ namespace JoJoStandsSounds
         public static bool syncSounds = false;
         internal static SoundsCustomizableOptions customizableConfig;
 
+        public static List<string> soundPaths = new List<string>();
         public static List<SoundEffectInstance> soundInstances = new List<SoundEffectInstance>();
         public static List<SoundState> soundStates = new List<SoundState>();        //This is an array of the state the sound SHOULD be in
         public static List<Vector2> soundPositions = new List<Vector2>();

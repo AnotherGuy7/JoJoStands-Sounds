@@ -4,7 +4,7 @@ namespace JoJoStandsSounds.Networking
 {
 	public class ModNetHandler
 	{
-		public const byte Sounds = 0;
+		public const byte Sounds = 2;
 
 		public static SoundsPacketHandler soundsSync = new SoundsPacketHandler(Sounds);
 

@@ -14,7 +14,7 @@ namespace JoJoStandsSounds
         public override void PreUpdate()
         {
             MyPlayer mPlayer = player.GetModPlayer<MyPlayer>();
-            if (mPlayer.poseMode)
+            if (mPlayer.poseMode && player.whoAmI == Main.myPlayer)
             {
                 if (mPlayer.poseDuration < 200 && !playedPoseSound && mPlayer.poseSoundName != "")
                 {

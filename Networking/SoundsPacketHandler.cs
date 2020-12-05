@@ -71,15 +71,13 @@ namespace JoJoStandsSounds.Networking
             int travelDist = reader.ReadInt32();
             if (Main.netMode != NetmodeID.Server)
             {
-                SoundEffectInstance sound = JoJoStandsSounds.Instance.GetSound(soundPath).CreateInstance();
                 if (JoJoStandsSounds.syncSounds)
                 {
                     bool soundExists = false;
-                    for (int i = 0; i < JoJoStandsSounds.soundInstances.Count; i++)
+                    for (int i = 0; i < JoJoStandsSounds.soundPaths.Count; i++)
                     {
-                        if (JoJoStandsSounds.soundInstances[i].ToString() == sound.ToString())
+                        if (JoJoStandsSounds.soundPaths[i] == soundPath)
                         {
-                            sound.Dispose();
                             JoJoStandsSounds.soundStates[i] = state;
                             JoJoStandsSounds.soundPositions[i] = pos;
                             JoJoStandsSounds.soundTravelDistances[i] = travelDist;
@@ -89,7 +87,8 @@ namespace JoJoStandsSounds.Networking
                     }
                     if (!soundExists)
                     {
-                        JoJoStandsSounds.soundInstances.Add(sound);
+                        JoJoStandsSounds.soundPaths.Add(soundPath);
+                        JoJoStandsSounds.soundInstances.Add(JoJoStandsSounds.Instance.GetSound(soundPath).CreateInstance());
                         JoJoStandsSounds.soundStates.Add(state);
                         JoJoStandsSounds.soundPositions.Add(pos);
                         JoJoStandsSounds.soundTravelDistances.Add(travelDist);
