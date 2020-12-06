@@ -1,4 +1,5 @@
 JoJo Stands: Sounds
 
-This mod is a branch of JoJoStands with sound additions such as barrages, battle cries, etc.
+This mod is a branch of JoJoStands with sound additions such as barrages, battle cries, pose quotes, etc.
+
 (Thanks to Prooooooos21 for helping me find the majority of the pose quotes!)
