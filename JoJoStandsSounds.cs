@@ -27,6 +27,7 @@ namespace JoJoStandsSounds
             soundVersion = null;
             syncSounds = false;
             customizableConfig = null;
+            soundPaths.Clear();
             soundInstances.Clear();
             soundStates.Clear();
             soundPositions.Clear();
