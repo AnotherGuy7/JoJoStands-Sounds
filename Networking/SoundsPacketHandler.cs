@@ -14,8 +14,7 @@ namespace JoJoStandsSounds.Networking
         public const byte SoundInstances = 1;
 
         public SoundsPacketHandler(byte handlerType) : base(handlerType)
-        {
-        }
+        { }
 
         public override void HandlePacket(BinaryReader reader, int fromWho)     //decides what happens when a packet is received, it looks for the byte sent with the packet and uses the proper method
         {
@@ -45,7 +44,7 @@ namespace JoJoStandsSounds.Networking
             Vector2 pos = reader.ReadVector2();
             if (Main.netMode != NetmodeID.Server)
             {
-                Main.PlaySound(JoJoStandsSounds.Instance.GetLegacySoundSlot(SoundType.Custom, soundPath), pos).Volume = MyPlayer.soundVolume;
+                Main.PlaySound(JoJoStandsSounds.Instance.GetLegacySoundSlot(SoundType.Custom, soundPath), pos).Volume = MyPlayer.ModSoundsVolume;
             }
             else
             {

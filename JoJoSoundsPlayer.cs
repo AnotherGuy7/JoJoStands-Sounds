@@ -25,7 +25,7 @@ namespace JoJoStandsSounds
                         soundPath = "Sounds/PoseQuotes/" + mPlayer.poseSoundName + "_Sub";
                         sound = mod.GetLegacySoundSlot(SoundType.Custom, soundPath);
                     }
-                    Main.PlaySound(sound, player.Center).Volume = MyPlayer.soundVolume;
+                    Main.PlaySound(sound, player.Center).Volume = MyPlayer.ModSoundsVolume;
                     if (Main.netMode == NetmodeID.MultiplayerClient)
                     {
                         ModNetHandler.soundsSync.SendQuoteSound(256, player.whoAmI, soundPath, player.Center);
@@ -51,7 +51,7 @@ namespace JoJoStandsSounds
         {
             if (player.whoAmI == Main.myPlayer)
             {
-                if (MyPlayer.deathsoundint == 6)
+                if (MyPlayer.DeathSoundID == 6)
                 {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Deathsounds/Killer"));
                 }
