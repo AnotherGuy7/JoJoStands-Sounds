@@ -15,6 +15,10 @@ namespace JoJoStandsSounds
         [Tooltip("Determines whether or not you want to sync your sounds across multiplayer (May cause some lag)")]
         public bool syncSounds = true;
 
+        [DefaultValue(false)]
+        [Tooltip("Whether or not Stands should continuously use barrage sounds. Disabling this option makes Stands only use ")]
+        public bool continuousBarrageSounds = false;
+
         public override void OnChanged()
         {
             if (dubVersion)
@@ -22,6 +26,7 @@ namespace JoJoStandsSounds
             else
                 JoJoStandsSounds.soundVersion = "_Sub";
             JoJoStandsSounds.syncSounds = syncSounds;
+            JoJoStandsSounds.continuousBarrageSounds = continuousBarrageSounds;
         }
     }
 }

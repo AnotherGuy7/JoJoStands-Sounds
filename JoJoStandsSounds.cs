@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace JoJoStandsSounds
@@ -12,6 +13,7 @@ namespace JoJoStandsSounds
     {
         public static string soundVersion = "_Sub";
         public static bool syncSounds = false;
+        public static bool continuousBarrageSounds = false;
         internal static SoundsCustomizableOptions customizableConfig;
 
         public static List<string> soundPaths = new List<string>();
@@ -54,6 +56,15 @@ namespace JoJoStandsSounds
                     break;
             }
             return null;
+        }
+
+        public override void PreSaveAndQuit()
+        {
+            if (JoJoSoundsPlayer.savedVolume != -1f)
+            {
+                Main.musicVolume = JoJoSoundsPlayer.savedVolume;
+                JoJoSoundsPlayer.savedVolume = -1f;
+            }
         }
 
         public override void HandlePacket(BinaryReader reader, int whoAmI)
