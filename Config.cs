@@ -25,6 +25,7 @@ namespace JoJoStandsSounds
                 JoJoStandsSounds.soundVersion = "_Dub";
             else
                 JoJoStandsSounds.soundVersion = "_Sub";
+
             JoJoStandsSounds.syncSounds = syncSounds;
             JoJoStandsSounds.continuousBarrageSounds = continuousBarrageSounds;
         }

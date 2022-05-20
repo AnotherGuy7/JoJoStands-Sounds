@@ -2,6 +2,7 @@ using JoJoStands;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Terraria;
+using Terraria.Audio;
 
 namespace JoJoStandsSounds
 {
@@ -12,17 +13,18 @@ namespace JoJoStandsSounds
         /// </summary>
         public static void PlaySound(SoundEffectInstance sound, SoundState state, Vector2 position, int soundTravelDistance = 40)
         {
-            Player player = Main.player[Main.myPlayer];
-            int volumeApexDistance = 16 * 16;       //So that if the player gets close enough the volume doesn't go higher but instead stays at that volume
+            Player Player = Main.player[Main.myPlayer];
+            int volumeApexDistance = 16 * 16;       //So that if the Player gets close enough the volume doesn't go higher but instead stays at that volume
             int travelDist = soundTravelDistance * 16;
-            float distanceFromSource = MathHelper.Clamp(Vector2.Distance(player.position, position) - volumeApexDistance, 0, travelDist);
+            float distanceFromSource = MathHelper.Clamp(Vector2.Distance(Player.position, position) - volumeApexDistance, 0, travelDist);
 
             sound.Volume = ((travelDist - distanceFromSource) / travelDist) * MyPlayer.ModSoundsVolume;
             if (sound.Volume != 0f)
             {
                 if (state == SoundState.Playing && sound.State != SoundState.Playing)
                 {
-                    Main.PlaySoundInstance(sound);
+                    sound.Play();
+                    SoundInstanceGarbageCollector.Track(sound);
                 }
                 else if (state == SoundState.Stopped)
                 {

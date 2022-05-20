@@ -1,7 +1,9 @@
 using JoJoStands;
 using JoJoStandsSounds.Networking;
 using Microsoft.Xna.Framework.Audio;
+using ReLogic.Content;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,14 +15,14 @@ namespace JoJoStandsSounds
         public static float savedVolume = -1f;
 
         private bool playedPoseSound = false;
+        private bool specialMoveEffectPlaying = false;
         private SoundEffectInstance biteTheDustAmbienceSFX;
         private SoundEffectInstance timeskipAmbienceSFX;
-        private bool specialMoveEffectPlaying = false;
 
         public override void Initialize()
         {
-            timeskipAmbienceSFX = ModContent.GetSound("JoJoStandsSounds/Sounds/SoundEffects/KCTSSFX").CreateInstance();
-            biteTheDustAmbienceSFX = ModContent.GetSound("JoJoStandsSounds/Sounds/SoundEffects/KQBTDSFX").CreateInstance();    
+            timeskipAmbienceSFX = ModContent.Request<SoundEffect>("JoJoStandsSounds/Sounds/SoundEffects/KCTSSFX", AssetRequestMode.ImmediateLoad).Value.CreateInstance();
+            biteTheDustAmbienceSFX = ModContent.Request<SoundEffect>("JoJoStandsSounds/Sounds/SoundEffects/KQBTDSFX", AssetRequestMode.ImmediateLoad).Value.CreateInstance();    
         }
 
         public override void ResetEffects()
@@ -30,26 +32,24 @@ namespace JoJoStandsSounds
 
         public override void PreUpdate()
         {
-            MyPlayer mPlayer = player.GetModPlayer<MyPlayer>();
+            MyPlayer mPlayer = Player.GetModPlayer<MyPlayer>();
             if (JoJoStandsSounds.continuousBarrageSounds)
                 mPlayer.standHitTime = 2;
 
-            if (mPlayer.poseMode && player.whoAmI == Main.myPlayer)
+            if (mPlayer.poseMode && Player.whoAmI == Main.myPlayer)
             {
                 if (mPlayer.poseDuration < 200 && !playedPoseSound && mPlayer.poseSoundName != "")
                 {
                     string soundPath = "Sounds/PoseQuotes/" + mPlayer.poseSoundName + JoJoStandsSounds.soundVersion;
-                    Terraria.Audio.LegacySoundStyle sound = mod.GetLegacySoundSlot(SoundType.Custom, soundPath);
+                    LegacySoundStyle sound = SoundLoader.GetLegacySoundSlot(Mod, soundPath);
                     if (sound == null)      //This is for dub sounds that are missing, otherwise there shouldn't be a value for this if both dub and sub are missing
                     {
                         soundPath = "Sounds/PoseQuotes/" + mPlayer.poseSoundName + "_Sub";
-                        sound = mod.GetLegacySoundSlot(SoundType.Custom, soundPath);
+                        sound = SoundLoader.GetLegacySoundSlot(Mod, soundPath);
                     }
-                    Main.PlaySound(sound, player.Center).Volume = MyPlayer.ModSoundsVolume;
+                    SoundEngine.PlaySound(sound, Player.Center).Volume = MyPlayer.ModSoundsVolume;
                     if (Main.netMode == NetmodeID.MultiplayerClient)
-                    {
-                        ModNetHandler.soundsSync.SendQuoteSound(256, player.whoAmI, soundPath, player.Center);
-                    }
+                        ModNetHandler.soundsSync.SendQuoteSound(256, Player.whoAmI, soundPath, Player.Center);
                     playedPoseSound = true;
                 }
             }
@@ -109,13 +109,13 @@ namespace JoJoStandsSounds
 
         public override bool PreKill(double damage, int hitDirection, bool pvp, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)       //that 1 last frame before you completely die
         {
-            if (player.whoAmI == Main.myPlayer)
+            /*if (Player.whoAmI == Main.myPlayer)
             {
                 if (MyPlayer.DeathSoundID == 6)
                 {
-                    Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Deathsounds/Killer"));
+                    Main.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Deathsounds/Killer"));
                 }
-            }
+            }*/
             return true;
         }
     }

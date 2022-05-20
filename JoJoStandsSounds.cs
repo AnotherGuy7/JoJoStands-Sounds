@@ -58,15 +58,6 @@ namespace JoJoStandsSounds
             return null;
         }
 
-        public override void PreSaveAndQuit()
-        {
-            if (JoJoSoundsPlayer.savedVolume != -1f)
-            {
-                Main.musicVolume = JoJoSoundsPlayer.savedVolume;
-                JoJoSoundsPlayer.savedVolume = -1f;
-            }
-        }
-
         public override void HandlePacket(BinaryReader reader, int whoAmI)
         {
             ModNetHandler.HandlePacket(reader, whoAmI);

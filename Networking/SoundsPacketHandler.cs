@@ -1,8 +1,10 @@
 using JoJoStands;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using ReLogic.Content;
 using System.IO;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -44,7 +46,9 @@ namespace JoJoStandsSounds.Networking
             Vector2 pos = reader.ReadVector2();
             if (Main.netMode != NetmodeID.Server)
             {
-                Main.PlaySound(JoJoStandsSounds.Instance.GetLegacySoundSlot(SoundType.Custom, soundPath), pos).Volume = MyPlayer.ModSoundsVolume;
+                LegacySoundStyle sound = SoundLoader.GetLegacySoundSlot(JoJoStandsSounds.Instance, soundPath);
+                sound.WithVolume(MyPlayer.ModSoundsVolume);
+                SoundEngine.PlaySound(sound, pos);
             }
             else
             {
@@ -87,7 +91,7 @@ namespace JoJoStandsSounds.Networking
                     if (!soundExists)
                     {
                         JoJoStandsSounds.soundPaths.Add(soundPath);
-                        JoJoStandsSounds.soundInstances.Add(JoJoStandsSounds.Instance.GetSound(soundPath).CreateInstance());
+                        JoJoStandsSounds.soundInstances.Add(ModContent.Request<SoundEffect>(soundPath, AssetRequestMode.ImmediateLoad).Value.CreateInstance());
                         JoJoStandsSounds.soundStates.Add(state);
                         JoJoStandsSounds.soundPositions.Add(pos);
                         JoJoStandsSounds.soundTravelDistances.Add(travelDist);
