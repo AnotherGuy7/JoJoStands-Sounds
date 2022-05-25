@@ -76,25 +76,22 @@ namespace JoJoStandsSounds.Networking
             {
                 if (JoJoStandsSounds.syncSounds)
                 {
-                    bool soundExists = false;
-                    for (int i = 0; i < JoJoStandsSounds.soundPaths.Count; i++)
+                    if (JoJoStandsSounds.activeSounds.ContainsKey(soundPath))
                     {
-                        if (JoJoStandsSounds.soundPaths[i] == soundPath)
-                        {
-                            JoJoStandsSounds.soundStates[i] = state;
-                            JoJoStandsSounds.soundPositions[i] = pos;
-                            JoJoStandsSounds.soundTravelDistances[i] = travelDist;
-                            soundExists = true;
-                            break;
-                        }
+                        JoJoStandsSounds.SoundData soundData = JoJoStandsSounds.activeSounds[soundPath];
+                        soundData.state = state;
+                        soundData.position = pos;
+                        soundData.travelDistance = travelDist;
+                        JoJoStandsSounds.activeSounds[soundPath] = soundData;
                     }
-                    if (!soundExists)
+                    else
                     {
-                        JoJoStandsSounds.soundPaths.Add(soundPath);
-                        JoJoStandsSounds.soundInstances.Add(ModContent.Request<SoundEffect>(soundPath, AssetRequestMode.ImmediateLoad).Value.CreateInstance());
-                        JoJoStandsSounds.soundStates.Add(state);
-                        JoJoStandsSounds.soundPositions.Add(pos);
-                        JoJoStandsSounds.soundTravelDistances.Add(travelDist);
+                        JoJoStandsSounds.SoundData newSoundData = new JoJoStandsSounds.SoundData();
+                        newSoundData.instance = ModContent.Request<SoundEffect>("JoJoStandsSounds/" + soundPath, AssetRequestMode.ImmediateLoad).Value.CreateInstance();
+                        newSoundData.state = state;
+                        newSoundData.position = pos;
+                        newSoundData.travelDistance = travelDist;
+                        JoJoStandsSounds.activeSounds.Add(soundPath, newSoundData);
                     }
                 }
             }

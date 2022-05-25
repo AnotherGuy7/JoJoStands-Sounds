@@ -2,6 +2,7 @@ using JoJoStands;
 using JoJoStandsSounds.Networking;
 using Microsoft.Xna.Framework.Audio;
 using ReLogic.Content;
+using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -21,6 +22,9 @@ namespace JoJoStandsSounds
 
         public override void Initialize()
         {
+            if (Main.dedServ)
+                return;
+
             timeskipAmbienceSFX = ModContent.Request<SoundEffect>("JoJoStandsSounds/Sounds/SoundEffects/KCTSSFX", AssetRequestMode.ImmediateLoad).Value.CreateInstance();
             biteTheDustAmbienceSFX = ModContent.Request<SoundEffect>("JoJoStandsSounds/Sounds/SoundEffects/KQBTDSFX", AssetRequestMode.ImmediateLoad).Value.CreateInstance();    
         }
@@ -100,9 +104,10 @@ namespace JoJoStandsSounds
 
             if (Main.netMode != NetmodeID.SinglePlayer && JoJoStandsSounds.syncSounds)
             {
-                for (int i = 0; i < JoJoStandsSounds.soundInstances.Count; i++)
+                string[] soundKeys = JoJoStandsSounds.activeSounds.Keys.ToArray();
+                for (int i = 0; i < JoJoStandsSounds.activeSounds.Count; i++)
                 {
-                    SoundsHelper.PlaySound(JoJoStandsSounds.soundInstances[i], JoJoStandsSounds.soundStates[i], JoJoStandsSounds.soundPositions[i], JoJoStandsSounds.soundTravelDistances[i]);
+                    SoundsHelper.PlaySound(JoJoStandsSounds.activeSounds[soundKeys[i]].instance, JoJoStandsSounds.activeSounds[soundKeys[i]].state, JoJoStandsSounds.activeSounds[soundKeys[i]].position, JoJoStandsSounds.activeSounds[soundKeys[i]].travelDistance);
                 }
             }
         }

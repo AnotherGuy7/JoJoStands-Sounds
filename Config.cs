@@ -7,15 +7,18 @@ namespace JoJoStandsSounds
     {
         public override ConfigScope Mode => ConfigScope.ClientSide;
 
-        [DefaultValue(false)]
-        [Tooltip("Determines whether or not you want to hear the English dub version of some sounds.")]
-        public bool dubVersion;
-
         [DefaultValue(true)]
+        [Label("Sound Sync")]
         [Tooltip("Determines whether or not you want to sync your sounds across multiplayer (May cause some lag)")]
         public bool syncSounds = true;
 
         [DefaultValue(false)]
+        [Label("English Dub Sounds")]
+        [Tooltip("Determines whether or not you want to hear the English dub version of some sounds.")]
+        public bool dubVersion;
+
+        [DefaultValue(false)]
+        [Label("Continuous Barrage Sounds")]
         [Tooltip("Whether or not Stands should continuously use barrage sounds. Disabling this option makes Stands only use ")]
         public bool continuousBarrageSounds = false;
 

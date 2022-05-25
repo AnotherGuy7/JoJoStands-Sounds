@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Audio;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Terraria;
 using Terraria.ModLoader;
 
 namespace JoJoStandsSounds
@@ -16,11 +15,15 @@ namespace JoJoStandsSounds
         public static bool continuousBarrageSounds = false;
         internal static SoundsCustomizableOptions customizableConfig;
 
-        public static List<string> soundPaths = new List<string>();
-        public static List<SoundEffectInstance> soundInstances = new List<SoundEffectInstance>();
-        public static List<SoundState> soundStates = new List<SoundState>();        //This is an array of the state the sound SHOULD be in
-        public static List<Vector2> soundPositions = new List<Vector2>();
-        public static List<int> soundTravelDistances = new List<int>();
+        public static Dictionary<string, SoundData> activeSounds = new Dictionary<string, SoundData>();
+
+        public struct SoundData
+        {
+            public int travelDistance;
+            public Vector2 position;
+            public SoundEffectInstance instance;
+            public SoundState state;
+        }
 
         public static JoJoStandsSounds Instance => ModContent.GetInstance<JoJoStandsSounds>();
 
@@ -29,11 +32,7 @@ namespace JoJoStandsSounds
             soundVersion = null;
             syncSounds = false;
             customizableConfig = null;
-            soundPaths.Clear();
-            soundInstances.Clear();
-            soundStates.Clear();
-            soundPositions.Clear();
-            soundTravelDistances.Clear();
+            activeSounds.Clear();
             ModNetHandler.soundsSync = null;
         }
 
