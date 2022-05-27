@@ -46,8 +46,8 @@ namespace JoJoStandsSounds.Networking
             Vector2 pos = reader.ReadVector2();
             if (Main.netMode != NetmodeID.Server)
             {
-                LegacySoundStyle sound = SoundLoader.GetLegacySoundSlot(JoJoStandsSounds.Instance, soundPath);
-                sound.WithVolume(MyPlayer.ModSoundsVolume);
+                SoundStyle sound = new SoundStyle(soundPath);
+                sound.Volume = MyPlayer.ModSoundsVolume;
                 SoundEngine.PlaySound(sound, pos);
             }
             else

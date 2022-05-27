@@ -45,13 +45,14 @@ namespace JoJoStandsSounds
                 if (mPlayer.poseDuration < 200 && !playedPoseSound && mPlayer.poseSoundName != "")
                 {
                     string soundPath = "Sounds/PoseQuotes/" + mPlayer.poseSoundName + JoJoStandsSounds.soundVersion;
-                    LegacySoundStyle sound = SoundLoader.GetLegacySoundSlot(Mod, soundPath);
+                    SoundStyle sound = new SoundStyle(soundPath);
                     if (sound == null)      //This is for dub sounds that are missing, otherwise there shouldn't be a value for this if both dub and sub are missing
                     {
                         soundPath = "Sounds/PoseQuotes/" + mPlayer.poseSoundName + "_Sub";
-                        sound = SoundLoader.GetLegacySoundSlot(Mod, soundPath);
+                        sound = new SoundStyle(soundPath);
                     }
-                    SoundEngine.PlaySound(sound, Player.Center).Volume = MyPlayer.ModSoundsVolume;
+                    sound.Volume = MyPlayer.ModSoundsVolume;
+                    SoundEngine.PlaySound(sound, Player.Center);
                     if (Main.netMode == NetmodeID.MultiplayerClient)
                         ModNetHandler.soundsSync.SendQuoteSound(256, Player.whoAmI, soundPath, Player.Center);
                     playedPoseSound = true;
