@@ -1,9 +1,11 @@
 using JoJoStandsSounds.Networking;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using ReLogic.Content;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace JoJoStandsSounds
@@ -27,12 +29,35 @@ namespace JoJoStandsSounds
 
         public static JoJoStandsSounds Instance => ModContent.GetInstance<JoJoStandsSounds>();
 
+        public static SoundEffectInstance biteTheDustAmbienceSFX;
+        public static SoundEffectInstance timeskipAmbienceSFX;
+
+        public override void Load()
+        {
+            if (Main.dedServ)
+                return;
+
+            timeskipAmbienceSFX = ModContent.Request<SoundEffect>("JoJoStandsSounds/Sounds/SoundEffects/KCTSSFX", AssetRequestMode.ImmediateLoad).Value.CreateInstance();
+            biteTheDustAmbienceSFX = ModContent.Request<SoundEffect>("JoJoStandsSounds/Sounds/SoundEffects/KQBTDSFX", AssetRequestMode.ImmediateLoad).Value.CreateInstance();
+        }
+
+        public override void Close()
+        {
+            activeSounds.Clear();
+            timeskipAmbienceSFX.Stop();
+            biteTheDustAmbienceSFX.Stop();
+
+            base.Close();
+        }
+
         public override void Unload()
         {
             soundVersion = null;
             syncSounds = false;
             customizableConfig = null;
-            activeSounds.Clear();
+            activeSounds = null;
+            timeskipAmbienceSFX = null;
+            biteTheDustAmbienceSFX = null;
             ModNetHandler.soundsSync = null;
         }
 

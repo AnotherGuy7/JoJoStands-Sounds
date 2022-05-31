@@ -17,17 +17,6 @@ namespace JoJoStandsSounds
 
         private bool playedPoseSound = false;
         private bool specialMoveEffectPlaying = false;
-        private SoundEffectInstance biteTheDustAmbienceSFX;
-        private SoundEffectInstance timeskipAmbienceSFX;
-
-        public override void Initialize()
-        {
-            if (Main.dedServ)
-                return;
-
-            timeskipAmbienceSFX = ModContent.Request<SoundEffect>("JoJoStandsSounds/Sounds/SoundEffects/KCTSSFX", AssetRequestMode.ImmediateLoad).Value.CreateInstance();
-            biteTheDustAmbienceSFX = ModContent.Request<SoundEffect>("JoJoStandsSounds/Sounds/SoundEffects/KQBTDSFX", AssetRequestMode.ImmediateLoad).Value.CreateInstance();    
-        }
 
         public override void ResetEffects()
         {
@@ -36,6 +25,9 @@ namespace JoJoStandsSounds
 
         public override void PreUpdate()
         {
+            if (Main.dedServ)
+                return;
+
             MyPlayer mPlayer = Player.GetModPlayer<MyPlayer>();
             if (JoJoStandsSounds.continuousBarrageSounds)
                 mPlayer.standHitTime = 2;
@@ -65,25 +57,27 @@ namespace JoJoStandsSounds
 
             if (mPlayer.bitesTheDustActive)
             {
-                biteTheDustAmbienceSFX.Play();
-                biteTheDustAmbienceSFX.Volume = MyPlayer.ModSoundsVolume;
+                JoJoStandsSounds.biteTheDustAmbienceSFX.Play();
+                JoJoStandsSounds.biteTheDustAmbienceSFX.Volume = MyPlayer.ModSoundsVolume;
+                SoundInstanceGarbageCollector.Track(JoJoStandsSounds.biteTheDustAmbienceSFX);
                 specialMoveEffectPlaying = true;
             }
             else
             {
-                if (biteTheDustAmbienceSFX.State == SoundState.Playing)
-                    biteTheDustAmbienceSFX.Stop();
+                if (JoJoStandsSounds.biteTheDustAmbienceSFX.State == SoundState.Playing)
+                    JoJoStandsSounds.biteTheDustAmbienceSFX.Stop();
             }
             if (mPlayer.timeskipActive)
             {
-                timeskipAmbienceSFX.Play();
-                timeskipAmbienceSFX.Volume = MyPlayer.ModSoundsVolume;
+                JoJoStandsSounds.timeskipAmbienceSFX.Play();
+                JoJoStandsSounds.timeskipAmbienceSFX.Volume = MyPlayer.ModSoundsVolume;
+                SoundInstanceGarbageCollector.Track(JoJoStandsSounds.timeskipAmbienceSFX);
                 specialMoveEffectPlaying = true;
             }
             else
             {
-                if (timeskipAmbienceSFX.State == SoundState.Playing)
-                    timeskipAmbienceSFX.Stop();
+                if (JoJoStandsSounds.timeskipAmbienceSFX.State == SoundState.Playing)
+                    JoJoStandsSounds.timeskipAmbienceSFX.Stop();
             }
 
             if (specialMoveEffectPlaying)

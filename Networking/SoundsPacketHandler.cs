@@ -87,7 +87,7 @@ namespace JoJoStandsSounds.Networking
                     else
                     {
                         JoJoStandsSounds.SoundData newSoundData = new JoJoStandsSounds.SoundData();
-                        newSoundData.instance = ModContent.Request<SoundEffect>("JoJoStandsSounds/" + soundPath, AssetRequestMode.ImmediateLoad).Value.CreateInstance();
+                        newSoundData.instance = ModContent.Request<SoundEffect>(soundPath, AssetRequestMode.ImmediateLoad).Value.CreateInstance();
                         newSoundData.state = state;
                         newSoundData.position = pos;
                         newSoundData.travelDistance = travelDist;
