@@ -15,7 +15,6 @@ namespace JoJoStandsSounds
         public static string soundVersion = "_Sub";
         public static bool syncSounds = false;
         public static bool continuousBarrageSounds = false;
-        internal static SoundsCustomizableOptions customizableConfig;
 
         public static Dictionary<string, SoundData> activeSounds = new Dictionary<string, SoundData>();
 
@@ -27,13 +26,14 @@ namespace JoJoStandsSounds
             public SoundState state;
         }
 
-        public static JoJoStandsSounds Instance => ModContent.GetInstance<JoJoStandsSounds>();
+        public static JoJoStandsSounds Instance;
 
         public static SoundEffectInstance biteTheDustAmbienceSFX;
         public static SoundEffectInstance timeskipAmbienceSFX;
 
         public override void Load()
         {
+            Instance = ModContent.GetInstance<JoJoStandsSounds>();
             if (Main.dedServ)
                 return;
 
@@ -54,11 +54,12 @@ namespace JoJoStandsSounds
         {
             soundVersion = null;
             syncSounds = false;
-            customizableConfig = null;
             activeSounds = null;
             timeskipAmbienceSFX = null;
             biteTheDustAmbienceSFX = null;
+            JoJoSoundsPlayer.savedVolume = -1f;
             ModNetHandler.soundsSync = null;
+            Instance = null;
         }
 
         public override object Call(params object[] args)

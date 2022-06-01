@@ -1,13 +1,13 @@
 using JoJoStands;
 using JoJoStandsSounds.Networking;
 using Microsoft.Xna.Framework.Audio;
-using ReLogic.Content;
 using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Exceptions;
 
 namespace JoJoStandsSounds
 {
@@ -36,15 +36,21 @@ namespace JoJoStandsSounds
             {
                 if (mPlayer.poseDuration < 200 && !playedPoseSound && mPlayer.poseSoundName != "")
                 {
-                    string soundPath = "Sounds/PoseQuotes/" + mPlayer.poseSoundName + JoJoStandsSounds.soundVersion;
-                    SoundStyle sound = new SoundStyle(soundPath);
-                    if (sound == null)      //This is for dub sounds that are missing, otherwise there shouldn't be a value for this if both dub and sub are missing
+                    string soundPath = "JoJoStandsSounds/Sounds/PoseQuotes/" + mPlayer.poseSoundName + JoJoStandsSounds.soundVersion;
+                    try
+                    {
+                        SoundStyle sound = new SoundStyle(soundPath);
+                        sound.Volume = MyPlayer.ModSoundsVolume;
+                        SoundEngine.PlaySound(sound, Player.Center);
+                    }
+                    catch (MissingResourceException)
                     {
                         soundPath = "Sounds/PoseQuotes/" + mPlayer.poseSoundName + "_Sub";
-                        sound = new SoundStyle(soundPath);
+                        SoundStyle sound = new SoundStyle(soundPath);
+                        sound.Volume = MyPlayer.ModSoundsVolume;
+                        SoundEngine.PlaySound(sound, Player.Center);
                     }
-                    sound.Volume = MyPlayer.ModSoundsVolume;
-                    SoundEngine.PlaySound(sound, Player.Center);
+
                     if (Main.netMode == NetmodeID.MultiplayerClient)
                         ModNetHandler.soundsSync.SendQuoteSound(256, Player.whoAmI, soundPath, Player.Center);
                     playedPoseSound = true;
