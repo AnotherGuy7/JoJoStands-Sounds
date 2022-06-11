@@ -45,7 +45,8 @@ namespace JoJoStandsSounds
                     }
                     catch (MissingResourceException)
                     {
-                        soundPath = "Sounds/PoseQuotes/" + mPlayer.poseSoundName + "_Sub";
+                        soundPath = "JoJoStandsSounds/Sounds/PoseQuotes/" + mPlayer.poseSoundName + "_Sub";
+                        Main.NewText(soundPath);
                         SoundStyle sound = new SoundStyle(soundPath);
                         sound.Volume = MyPlayer.ModSoundsVolume;
                         SoundEngine.PlaySound(sound, Player.Center);

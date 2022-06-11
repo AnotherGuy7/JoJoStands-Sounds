@@ -19,7 +19,7 @@ namespace JoJoStandsSounds
 
         [DefaultValue(false)]
         [Label("Continuous Barrage Sounds")]
-        [Tooltip("Whether or not Stands should continuously use barrage sounds. Disabling this option makes Stands only use ")]
+        [Tooltip("Whether or not Stands should continuously use barrage sounds.\nDisabling this option makes Stands only use their battle cries while an enemy is being hit.")]
         public bool continuousBarrageSounds = false;
 
         public override void OnChanged()
