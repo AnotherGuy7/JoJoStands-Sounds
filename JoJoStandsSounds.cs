@@ -44,8 +44,11 @@ namespace JoJoStandsSounds
         public override void Close()
         {
             activeSounds.Clear();
-            timeskipAmbienceSFX.Stop();
-            biteTheDustAmbienceSFX.Stop();
+            if (timeskipAmbienceSFX != null)
+            {
+                timeskipAmbienceSFX.Stop();
+                biteTheDustAmbienceSFX.Stop();
+            }
 
             base.Close();
         }
