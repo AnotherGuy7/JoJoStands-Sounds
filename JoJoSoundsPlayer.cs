@@ -32,7 +32,7 @@ namespace JoJoStandsSounds
             if (JoJoStandsSounds.continuousBarrageSounds)
                 mPlayer.standHitTime = 2;
 
-            if (mPlayer.poseMode && Player.whoAmI == Main.myPlayer)
+            if (mPlayer.posing && Player.whoAmI == Main.myPlayer)
             {
                 if (mPlayer.poseDuration < 200 && !playedPoseSound && mPlayer.poseSoundName != "")
                 {
