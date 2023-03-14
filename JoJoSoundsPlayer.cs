@@ -40,7 +40,7 @@ namespace JoJoStandsSounds
                     try
                     {
                         SoundStyle sound = new SoundStyle(soundPath);
-                        sound.Volume = MyPlayer.ModSoundsVolume;
+                        sound.Volume = JoJoStands.JoJoStands.ModSoundsVolume;
                         SoundEngine.PlaySound(sound, Player.Center);
                     }
                     catch (MissingResourceException)
@@ -48,7 +48,7 @@ namespace JoJoStandsSounds
                         soundPath = "JoJoStandsSounds/Sounds/PoseQuotes/" + mPlayer.poseSoundName + "_Sub";
                         Main.NewText(soundPath);
                         SoundStyle sound = new SoundStyle(soundPath);
-                        sound.Volume = MyPlayer.ModSoundsVolume;
+                        sound.Volume = JoJoStands.JoJoStands.ModSoundsVolume;
                         SoundEngine.PlaySound(sound, Player.Center);
                     }
 
@@ -65,7 +65,7 @@ namespace JoJoStandsSounds
             if (mPlayer.bitesTheDustActive)
             {
                 JoJoStandsSounds.biteTheDustAmbienceSFX.Play();
-                JoJoStandsSounds.biteTheDustAmbienceSFX.Volume = MyPlayer.ModSoundsVolume;
+                JoJoStandsSounds.biteTheDustAmbienceSFX.Volume = JoJoStands.JoJoStands.ModSoundsVolume;
                 SoundInstanceGarbageCollector.Track(JoJoStandsSounds.biteTheDustAmbienceSFX);
                 specialMoveEffectPlaying = true;
             }
@@ -77,7 +77,7 @@ namespace JoJoStandsSounds
             if (mPlayer.timeskipActive)
             {
                 JoJoStandsSounds.timeskipAmbienceSFX.Play();
-                JoJoStandsSounds.timeskipAmbienceSFX.Volume = MyPlayer.ModSoundsVolume;
+                JoJoStandsSounds.timeskipAmbienceSFX.Volume = JoJoStands.JoJoStands.ModSoundsVolume;
                 SoundInstanceGarbageCollector.Track(JoJoStandsSounds.timeskipAmbienceSFX);
                 specialMoveEffectPlaying = true;
             }

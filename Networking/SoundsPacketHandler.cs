@@ -47,7 +47,7 @@ namespace JoJoStandsSounds.Networking
             if (Main.netMode != NetmodeID.Server)
             {
                 SoundStyle sound = new SoundStyle(soundPath);
-                sound.Volume = MyPlayer.ModSoundsVolume;
+                sound.Volume = JoJoStands.JoJoStands.ModSoundsVolume;
                 SoundEngine.PlaySound(sound, pos);
             }
             else

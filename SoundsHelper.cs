@@ -18,7 +18,7 @@ namespace JoJoStandsSounds
             int travelDist = soundTravelDistance * 16;
             float distanceFromSource = MathHelper.Clamp(Vector2.Distance(Player.position, position) - volumeApexDistance, 0, travelDist);
 
-            sound.Volume = ((travelDist - distanceFromSource) / travelDist) * MyPlayer.ModSoundsVolume;
+            sound.Volume = ((travelDist - distanceFromSource) / travelDist) * JoJoStands.JoJoStands.ModSoundsVolume;
             if (sound.Volume != 0f)
             {
                 if (state == SoundState.Playing && sound.State != SoundState.Playing)
