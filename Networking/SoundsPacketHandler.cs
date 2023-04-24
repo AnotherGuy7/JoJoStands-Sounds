@@ -74,7 +74,7 @@ namespace JoJoStandsSounds.Networking
             int travelDist = reader.ReadInt32();
             if (Main.netMode != NetmodeID.Server)
             {
-                if (JoJoStandsSounds.syncSounds)
+                if (JoJoStandsSounds.SyncSounds)
                 {
                     if (JoJoStandsSounds.activeSounds.ContainsKey(soundPath))
                     {

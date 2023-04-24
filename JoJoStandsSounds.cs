@@ -12,9 +12,9 @@ namespace JoJoStandsSounds
 {
     public class JoJoStandsSounds : Mod
     {
-        public static string soundVersion = "_Sub";
-        public static bool syncSounds = false;
-        public static bool continuousBarrageSounds = false;
+        public static string SoundVersion = "_Sub";
+        public static bool SyncSounds = false;
+        public static bool ContinuousBarrageSounds = false;
 
         public static Dictionary<string, SoundData> activeSounds = new Dictionary<string, SoundData>();
 
@@ -55,8 +55,8 @@ namespace JoJoStandsSounds
 
         public override void Unload()
         {
-            soundVersion = null;
-            syncSounds = false;
+            SoundVersion = null;
+            SyncSounds = false;
             activeSounds = null;
             timeskipAmbienceSFX = null;
             biteTheDustAmbienceSFX = null;
@@ -71,7 +71,7 @@ namespace JoJoStandsSounds
             switch (methodName)
             {
                 case "SendSoundInstance":
-                    if (syncSounds)
+                    if (SyncSounds)
                     {
                         int sender = Convert.ToInt32(args[1]);
                         string soundPath = args[2] as string;

@@ -25,12 +25,12 @@ namespace JoJoStandsSounds
         public override void OnChanged()
         {
             if (dubVersion)
-                JoJoStandsSounds.soundVersion = "_Dub";
+                JoJoStandsSounds.SoundVersion = "_Dub";
             else
-                JoJoStandsSounds.soundVersion = "_Sub";
+                JoJoStandsSounds.SoundVersion = "_Sub";
 
-            JoJoStandsSounds.syncSounds = syncSounds;
-            JoJoStandsSounds.continuousBarrageSounds = continuousBarrageSounds;
+            JoJoStandsSounds.SyncSounds = syncSounds;
+            JoJoStandsSounds.ContinuousBarrageSounds = continuousBarrageSounds;
         }
     }
 }

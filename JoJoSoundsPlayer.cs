@@ -1,6 +1,7 @@
 using JoJoStands;
 using JoJoStandsSounds.Networking;
 using Microsoft.Xna.Framework.Audio;
+using ReLogic.Content;
 using System.Linq;
 using Terraria;
 using Terraria.Audio;
@@ -8,6 +9,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Exceptions;
+using static JoJoStandsSounds.JoJoStandsSounds;
 
 namespace JoJoStandsSounds
 {
@@ -29,28 +31,20 @@ namespace JoJoStandsSounds
                 return;
 
             MyPlayer mPlayer = Player.GetModPlayer<MyPlayer>();
-            if (JoJoStandsSounds.continuousBarrageSounds)
+            if (JoJoStandsSounds.ContinuousBarrageSounds)
                 mPlayer.standHitTime = 2;
 
             if (mPlayer.posing && Player.whoAmI == Main.myPlayer)
             {
                 if (mPlayer.poseDuration < 200 && !playedPoseSound && mPlayer.poseSoundName != "")
                 {
-                    string soundPath = "JoJoStandsSounds/Sounds/PoseQuotes/" + mPlayer.poseSoundName + JoJoStandsSounds.soundVersion;
-                    try
-                    {
-                        SoundStyle sound = new SoundStyle(soundPath);
-                        sound.Volume = JoJoStands.JoJoStands.ModSoundsVolume;
-                        SoundEngine.PlaySound(sound, Player.Center);
-                    }
-                    catch (MissingResourceException)
-                    {
+                    string soundPath = "JoJoStandsSounds/Sounds/PoseQuotes/" + mPlayer.poseSoundName + JoJoStandsSounds.SoundVersion;
+                    if (!ModContent.FileExists(soundPath))
                         soundPath = "JoJoStandsSounds/Sounds/PoseQuotes/" + mPlayer.poseSoundName + "_Sub";
-                        Main.NewText(soundPath);
-                        SoundStyle sound = new SoundStyle(soundPath);
-                        sound.Volume = JoJoStands.JoJoStands.ModSoundsVolume;
-                        SoundEngine.PlaySound(sound, Player.Center);
-                    }
+
+                    SoundStyle sound = new SoundStyle(soundPath);
+                    sound.Volume = JoJoStands.JoJoStands.ModSoundsVolume;
+                    SoundEngine.PlaySound(sound, Player.Center);
 
                     if (Main.netMode == NetmodeID.MultiplayerClient)
                         ModNetHandler.soundsSync.SendQuoteSound(256, Player.whoAmI, soundPath, Player.Center);
@@ -104,7 +98,7 @@ namespace JoJoStandsSounds
                 }
             }
 
-            if (Main.netMode != NetmodeID.SinglePlayer && JoJoStandsSounds.syncSounds)
+            if (Main.netMode != NetmodeID.SinglePlayer && JoJoStandsSounds.SyncSounds)
             {
                 string[] soundKeys = JoJoStandsSounds.activeSounds.Keys.ToArray();
                 for (int i = 0; i < JoJoStandsSounds.activeSounds.Count; i++)
