@@ -56,12 +56,13 @@ namespace JoJoStandsSounds.Networking
             }
         }
 
-        public void PlaySoundInstance(int toWho, int fromWho, string soundsPath, SoundState state, Vector2 pos, int travelDistance)
+        public void SendSoundInstance(int toWho, int fromWho, string soundsPath, SoundState state, Vector2 pos, byte travelDistance)
         {
             ModPacket packet = GetPacket(SoundInstances, fromWho);
             packet.Write(soundsPath);
-            packet.Write((int)state);
-            packet.WriteVector2(pos);
+            packet.Write((byte)state);
+            packet.Write((int)pos.X * 100);
+            packet.Write((int)pos.Y * 100);
             packet.Write(travelDistance);
             packet.Send(toWho, fromWho);
         }
@@ -69,9 +70,9 @@ namespace JoJoStandsSounds.Networking
         public void ReceiveSoundInstance(BinaryReader reader, int fromWho)
         {
             string soundPath = reader.ReadString();
-            SoundState state = (SoundState)reader.ReadInt32();
-            Vector2 pos = reader.ReadVector2();
-            int travelDist = reader.ReadInt32();
+            SoundState state = (SoundState)reader.ReadByte();
+            Vector2 pos = new Vector2(reader.ReadInt32(), reader.ReadInt32()) / 100f;
+            byte travelDist = reader.ReadByte();
             if (Main.netMode != NetmodeID.Server)
             {
                 if (JoJoStandsSounds.SyncSounds)
@@ -97,7 +98,7 @@ namespace JoJoStandsSounds.Networking
             }
             else
             {
-                PlaySoundInstance(-1, fromWho, soundPath, state, pos, travelDist);
+                SendSoundInstance(-1, fromWho, soundPath, state, pos, travelDist);
             }
         }
     }

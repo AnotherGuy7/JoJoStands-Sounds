@@ -20,8 +20,8 @@ namespace JoJoStandsSounds
 
         public struct SoundData
         {
-            public int travelDistance;
             public Vector2 position;
+            public int travelDistance;
             public SoundEffectInstance instance;
             public SoundState state;
         }
@@ -43,7 +43,8 @@ namespace JoJoStandsSounds
 
         public override void Close()
         {
-            activeSounds.Clear();
+            if (activeSounds != null)
+                activeSounds.Clear();
             if (timeskipAmbienceSFX != null)
             {
                 timeskipAmbienceSFX.Stop();
@@ -77,9 +78,9 @@ namespace JoJoStandsSounds
                         string soundPath = args[2] as string;
                         SoundState state = (SoundState)Convert.ToSingle(args[3]);
                         Vector2 pos = new Vector2(Convert.ToInt32(args[4]), Convert.ToInt32(args[5]));
-                        int travelDist = Convert.ToInt32(args[6]);
+                        byte travelDist = (byte)MathHelper.Clamp(Convert.ToInt32(args[6]), 0, 255);
 
-                        ModNetHandler.soundsSync.PlaySoundInstance(-1, sender, soundPath, state, pos, travelDist);
+                        ModNetHandler.soundsSync.SendSoundInstance(-1, sender, soundPath, state, pos, travelDist);
                     }
                     break;
             }

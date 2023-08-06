@@ -1,0 +1,24 @@
+Configs: {
+	SoundsCustomizableOptions: {
+		DisplayName: Sounds Customizable Options
+
+		syncSounds: {
+			Label: Sound Sync
+			Tooltip: Determines whether or not you want to sync your sounds across multiplayer (May cause some lag)
+		}
+
+		dubVersion: {
+			Label: English Dub Sounds
+			Tooltip: Determines whether or not you want to hear the English dub version of some sounds.
+		}
+
+		continuousBarrageSounds: {
+			Label: Continuous Barrage Sounds
+			Tooltip:
+				'''
+				Whether or not Stands should continuously use barrage sounds.
+				Disabling this option makes Stands only use their battle cries while an enemy is being hit.
+				'''
+		}
+	}
+}

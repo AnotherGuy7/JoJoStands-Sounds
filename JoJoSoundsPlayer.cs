@@ -1,14 +1,12 @@
 using JoJoStands;
 using JoJoStandsSounds.Networking;
 using Microsoft.Xna.Framework.Audio;
-using ReLogic.Content;
 using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Exceptions;
 using static JoJoStandsSounds.JoJoStandsSounds;
 
 namespace JoJoStandsSounds
@@ -31,14 +29,14 @@ namespace JoJoStandsSounds
                 return;
 
             MyPlayer mPlayer = Player.GetModPlayer<MyPlayer>();
-            if (JoJoStandsSounds.ContinuousBarrageSounds)
+            if (ContinuousBarrageSounds)
                 mPlayer.standHitTime = 2;
 
             if (mPlayer.posing && Player.whoAmI == Main.myPlayer)
             {
                 if (mPlayer.poseDuration < 200 && !playedPoseSound && mPlayer.poseSoundName != "")
                 {
-                    string soundPath = "JoJoStandsSounds/Sounds/PoseQuotes/" + mPlayer.poseSoundName + JoJoStandsSounds.SoundVersion;
+                    string soundPath = "JoJoStandsSounds/Sounds/PoseQuotes/" + mPlayer.poseSoundName + SoundVersion;
                     if (!ModContent.FileExists(soundPath))
                         soundPath = "JoJoStandsSounds/Sounds/PoseQuotes/" + mPlayer.poseSoundName + "_Sub";
 
@@ -58,27 +56,27 @@ namespace JoJoStandsSounds
 
             if (mPlayer.bitesTheDustActive)
             {
-                JoJoStandsSounds.biteTheDustAmbienceSFX.Play();
-                JoJoStandsSounds.biteTheDustAmbienceSFX.Volume = JoJoStands.JoJoStands.ModSoundsVolume;
-                SoundInstanceGarbageCollector.Track(JoJoStandsSounds.biteTheDustAmbienceSFX);
+                biteTheDustAmbienceSFX.Play();
+                biteTheDustAmbienceSFX.Volume = JoJoStands.JoJoStands.ModSoundsVolume;
+                SoundInstanceGarbageCollector.Track(biteTheDustAmbienceSFX);
                 specialMoveEffectPlaying = true;
             }
             else
             {
-                if (JoJoStandsSounds.biteTheDustAmbienceSFX.State == SoundState.Playing)
-                    JoJoStandsSounds.biteTheDustAmbienceSFX.Stop();
+                if (biteTheDustAmbienceSFX.State == SoundState.Playing)
+                    biteTheDustAmbienceSFX.Stop();
             }
             if (mPlayer.timeskipActive)
             {
-                JoJoStandsSounds.timeskipAmbienceSFX.Play();
-                JoJoStandsSounds.timeskipAmbienceSFX.Volume = JoJoStands.JoJoStands.ModSoundsVolume;
-                SoundInstanceGarbageCollector.Track(JoJoStandsSounds.timeskipAmbienceSFX);
+                timeskipAmbienceSFX.Play();
+                timeskipAmbienceSFX.Volume = JoJoStands.JoJoStands.ModSoundsVolume;
+                SoundInstanceGarbageCollector.Track(timeskipAmbienceSFX);
                 specialMoveEffectPlaying = true;
             }
             else
             {
-                if (JoJoStandsSounds.timeskipAmbienceSFX.State == SoundState.Playing)
-                    JoJoStandsSounds.timeskipAmbienceSFX.Stop();
+                if (timeskipAmbienceSFX.State == SoundState.Playing)
+                    timeskipAmbienceSFX.Stop();
             }
 
             if (specialMoveEffectPlaying)
@@ -98,12 +96,12 @@ namespace JoJoStandsSounds
                 }
             }
 
-            if (Main.netMode != NetmodeID.SinglePlayer && JoJoStandsSounds.SyncSounds)
+            if (Main.netMode != NetmodeID.SinglePlayer && SyncSounds)
             {
-                string[] soundKeys = JoJoStandsSounds.activeSounds.Keys.ToArray();
-                for (int i = 0; i < JoJoStandsSounds.activeSounds.Count; i++)
+                string[] soundKeys = activeSounds.Keys.ToArray();
+                for (int i = 0; i < activeSounds.Count; i++)
                 {
-                    SoundsHelper.PlaySound(JoJoStandsSounds.activeSounds[soundKeys[i]].instance, JoJoStandsSounds.activeSounds[soundKeys[i]].state, JoJoStandsSounds.activeSounds[soundKeys[i]].position, JoJoStandsSounds.activeSounds[soundKeys[i]].travelDistance);
+                    SoundsHelper.PlaySound(activeSounds[soundKeys[i]].instance, activeSounds[soundKeys[i]].state, activeSounds[soundKeys[i]].position, activeSounds[soundKeys[i]].travelDistance);
                 }
             }
         }
