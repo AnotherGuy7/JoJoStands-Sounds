@@ -16,6 +16,12 @@ namespace JoJoStandsSounds
         public static bool SyncSounds = false;
         public static bool ContinuousBarrageSounds = false;
 
+        public readonly byte Theme_PowerInstall2 = 0;
+        public readonly byte Theme_PowerInstall3 = 1;
+        public readonly byte Theme_PowerInstall4 = 2;
+
+        public static SoundEffectInstance[] StandThemes;
+
         public static Dictionary<string, SoundData> activeSounds = new Dictionary<string, SoundData>();
 
         public struct SoundData
@@ -39,6 +45,11 @@ namespace JoJoStandsSounds
 
             timeskipAmbienceSFX = ModContent.Request<SoundEffect>("JoJoStandsSounds/Sounds/SoundEffects/KCTSSFX", AssetRequestMode.ImmediateLoad).Value.CreateInstance();
             biteTheDustAmbienceSFX = ModContent.Request<SoundEffect>("JoJoStandsSounds/Sounds/SoundEffects/KQBTDSFX", AssetRequestMode.ImmediateLoad).Value.CreateInstance();
+
+            StandThemes = new SoundEffectInstance[3];
+            StandThemes[0] = ModContent.Request<SoundEffect>("JoJoStandsSounds/Sounds/Themes/VirtualInsanity/PowerInstall_2", AssetRequestMode.ImmediateLoad).Value.CreateInstance();
+            StandThemes[1] = ModContent.Request<SoundEffect>("JoJoStandsSounds/Sounds/Themes/VirtualInsanity/PowerInstall_3", AssetRequestMode.ImmediateLoad).Value.CreateInstance();
+            StandThemes[2] = ModContent.Request<SoundEffect>("JoJoStandsSounds/Sounds/Themes/VirtualInsanity/PowerInstall_4", AssetRequestMode.ImmediateLoad).Value.CreateInstance();
         }
 
         public override void Close()
