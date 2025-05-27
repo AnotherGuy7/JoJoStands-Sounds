@@ -1,5 +1,5 @@
 author = AnotherGuy
-version = 1.5.4
+version = 1.5.5
 displayName = JoJoStands: Sounds
 homepage = https://forums.terraria.org/index.php?threads/jojostands.77244/
 modReferences = JoJoStands
